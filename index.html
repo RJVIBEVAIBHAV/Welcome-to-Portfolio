@@ -244,14 +244,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   box-shadow:0 30px 80px rgba(32,43,62,.10);
 }
 .contact-hero h2{font-size:clamp(42px,7vw,82px);line-height:.95;max-width:900px;margin:20px auto;}
-.social-pill-row{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:50px;}
-.social-pill{
-  display:inline-flex;align-items:center;gap:9px;padding:13px 20px;border-radius:999px;
-  background:rgba(255,255,255,.9);border:1px solid rgba(16,21,34,.12);
-  transition:transform .35s var(--ease),background .35s ease,box-shadow .35s ease;
-}
-.social-pill:hover{transform:translateY(-4px);background:#fff;box-shadow:0 12px 28px rgba(25,39,63,.12);}
-.social-pill svg{width:16px;height:16px;}
 @media(max-width:800px){
   .editorial-work{grid-template-columns:1fr;}
   .work-feature{min-height:420px;}
@@ -580,19 +572,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 @media(max-width:900px){.social-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:560px){.social-grid{grid-template-columns:1fr;}}
 
-/* ============ BTS GRID ============ */
-.bts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
-.bts-item{aspect-ratio:1;border-radius:14px;overflow:hidden;position:relative;background:linear-gradient(135deg,rgba(61,139,255,0.16),rgba(124,108,240,0.08));border:1px solid var(--glass-border);cursor:pointer;}
-.bts-item::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 14px);}
-.bts-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,8,16,0.9),transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:14px;opacity:0;transition:opacity .35s ease;}
-.bts-item:hover .bts-overlay{opacity:1;}
-.bts-item:hover{transform:scale(1.03);}
-.bts-item{transition:transform .4s var(--ease);}
-.bts-overlay span{font-size:12px;font-weight:600;}
-.bts-overlay svg{width:14px;height:14px;color:var(--cyan);margin-bottom:6px;}
-@media(max-width:900px){.bts-grid{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:560px){.bts-grid{grid-template-columns:1fr 1fr;}}
-
 /* ============ YOUTUBE ============ */
 .yt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:44px;}
 .yt-card{overflow:hidden;transition:transform .4s var(--ease), border-color .4s ease;}
@@ -791,18 +770,6 @@ body[data-theme="light"] .proj-thumb{
   background:linear-gradient(135deg,#e9e9e7,#f7f7f5);
 }
 
-body[data-theme="light"] .bts-item{
-  background:linear-gradient(135deg,#e9e9e7,#f7f7f5);
-}
-
-body[data-theme="light"] .bts-item::before{
-  background-image:repeating-linear-gradient(45deg,rgba(17,18,20,.025) 0 2px,transparent 2px 14px);
-}
-
-body[data-theme="light"] .bts-overlay{
-  background:linear-gradient(0deg,rgba(17,18,20,.72),transparent 60%);
-}
-
 body[data-theme="light"] .yt-thumb{
   background:linear-gradient(135deg,#e9e9e7,#f7f7f5);
 }
@@ -991,7 +958,6 @@ html, body{
   .work-grid{grid-template-columns:1fr 1fr;}
   .social-grid{grid-template-columns:1fr 1fr;}
   .yt-grid{grid-template-columns:1fr 1fr;}
-  .bts-grid{grid-template-columns:repeat(3,1fr);}
 }
 
 /* Tablet portrait */
@@ -1032,7 +998,6 @@ html, body{
   .mile-grid{grid-template-columns:1fr 1fr;}
   .social-grid{grid-template-columns:1fr 1fr;}
   .yt-grid{grid-template-columns:1fr 1fr;}
-  .bts-grid{grid-template-columns:repeat(3,1fr);}
   .contact-grid{grid-template-columns:1fr;gap:30px;}
 }
 
@@ -1261,12 +1226,6 @@ html, body{
   .social-grid{grid-template-columns:1fr;}
   .social-card{padding:20px;}
 
-  /* BTS */
-  .bts-grid{
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-  }
-
   /* YouTube */
   .yt-grid{
     grid-template-columns:1fr;
@@ -1330,7 +1289,6 @@ html, body{
     justify-content:center;
   }
   .stat-grid{grid-template-columns:1fr;}
-  .bts-grid{grid-template-columns:1fr 1fr;}
 }
 
 /* Landscape phones */
@@ -1374,6 +1332,1060 @@ p, h1, h2, h3, h4, h5, a, span{
   overflow-wrap:anywhere;
 }
 
+
+/* ===== REAL PROJECT THUMBNAILS ===== */
+.work-thumb{
+  height:190px;
+  position:relative;
+  background:#080b11;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid var(--glass-border);
+  overflow:hidden;
+}
+.work-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  position:relative;
+  z-index:0;
+  transition:transform .65s var(--ease),filter .5s ease;
+}
+.work-thumb::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.18));
+  opacity:.5;
+  transition:opacity .4s ease;
+}
+.work-card:hover .work-thumb img{
+  transform:scale(1.055);
+  filter:saturate(1.05) contrast(1.02);
+}
+.work-card:hover .work-thumb::after{opacity:.2;}
+
+
+/* ===== DEEP BLACK DARK THEME ===== */
+body:not([data-theme="light"]){
+  --bg-0:#020306;--bg-1:#05070b;--bg-2:#080b11;--bg-3:#0d1118;
+  --ink:#ffffff;--ink-dim:#d5d9e1;--ink-faint:#8d96a5;
+  --blue:#4b8cff;--blue-2:#2465d9;--cyan:#bfe7ff;--violet:#9e8cff;
+  --glass-bg:rgba(8,11,17,.72);--glass-bg-hi:rgba(14,18,27,.92);
+  --glass-border:rgba(255,255,255,.12);--glass-border-hi:rgba(191,231,255,.55);
+  --grad-text:linear-gradient(100deg,#fff 0%,#f5f8ff 45%,#b9d9ff 100%);
+  --grad-bg:radial-gradient(850px 520px at 8% -5%,rgba(49,91,155,.16),transparent 65%),
+             radial-gradient(900px 620px at 100% 8%,rgba(70,88,160,.12),transparent 62%),
+             radial-gradient(1000px 760px at 50% 115%,rgba(25,47,82,.14),transparent 62%);
+  background:#020306;
+}
+body:not([data-theme="light"])::before{background:var(--grad-bg);}
+body:not([data-theme="light"])::after{opacity:.028;}
+body:not([data-theme="light"]) .nav.scrolled{background:rgba(2,3,6,.82);border-bottom-color:rgba(255,255,255,.09);}
+body:not([data-theme="light"]) .nav-links a:hover{color:#fff;background:rgba(255,255,255,.07);}
+body:not([data-theme="light"]) .nav-links a.active{color:#fff;}
+body:not([data-theme="light"]) .glass{background:var(--glass-bg);border-color:var(--glass-border);box-shadow:0 20px 60px rgba(0,0,0,.20);}
+body:not([data-theme="light"]) .glass:hover{border-color:rgba(191,231,255,.28);}
+body:not([data-theme="light"]) .btn-primary{background:linear-gradient(105deg,#fff 0%,#dcecff 52%,#a9d8ff 100%);color:#020306;box-shadow:0 0 0 1px rgba(255,255,255,.16),0 10px 30px -10px rgba(184,220,255,.55);}
+body:not([data-theme="light"]) .btn-primary:hover{box-shadow:0 0 24px rgba(190,226,255,.28),0 16px 40px -10px rgba(105,165,255,.42);}
+body:not([data-theme="light"]) .btn-ghost{color:#fff;background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.16);}
+body:not([data-theme="light"]) .btn-ghost:hover{color:#fff;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.34);}
+body:not([data-theme="light"]) .grad-text{text-shadow:0 0 18px rgba(215,237,255,.10),0 0 45px rgba(126,178,255,.08);}
+body:not([data-theme="light"]) .hero-heading,
+body:not([data-theme="light"]) .section-head h2,
+body:not([data-theme="light"]) .statement h2,
+body:not([data-theme="light"]) .work-body h4,
+body:not([data-theme="light"]) .project-card h4,
+body:not([data-theme="light"]) .exp-card h4,
+body:not([data-theme="light"]) .mile-card h4,
+body:not([data-theme="light"]) .social-card h4,
+body:not([data-theme="light"]) .case-step h4{color:#fff;text-shadow:0 0 10px rgba(255,255,255,.08),0 0 30px rgba(167,207,255,.05);}
+body:not([data-theme="light"]) .hero-heading .line:nth-child(2) span{color:#d5d9e1;}
+body:not([data-theme="light"]) .hero-sub,
+body:not([data-theme="light"]) .statement p,
+body:not([data-theme="light"]) .about-grid p,
+body:not([data-theme="light"]) .work-body p,
+body:not([data-theme="light"]) .proj-meta div p,
+body:not([data-theme="light"]) .exp-card p,
+body:not([data-theme="light"]) .social-card p,
+body:not([data-theme="light"]) .case-step p{color:#c7cdd7;}
+body:not([data-theme="light"]) .hero-frame{background:linear-gradient(160deg,rgba(16,21,30,.92),rgba(4,6,10,.96));border-color:rgba(255,255,255,.14);box-shadow:0 30px 90px rgba(0,0,0,.55),0 0 50px rgba(78,137,220,.08);}
+body:not([data-theme="light"]) .hero-frame::before{background:radial-gradient(circle at 50% 30%,rgba(92,153,255,.16),transparent 65%);}
+body:not([data-theme="light"]) .hero-frame .rings span{border-color:rgba(191,231,255,.14);}
+body:not([data-theme="light"]) .float-card{background:rgba(7,10,16,.78);border-color:rgba(255,255,255,.12);color:#fff;box-shadow:0 15px 45px rgba(0,0,0,.34);}
+body:not([data-theme="light"]) .cursor-dot{background:#fff;box-shadow:0 0 10px 2px rgba(255,255,255,.82),0 0 28px 6px rgba(164,210,255,.34);}
+body:not([data-theme="light"]) .ink-panel{background:radial-gradient(700px 300px at 75% 0%,rgba(73,119,198,.14),transparent 65%),linear-gradient(135deg,#030509,#080d15 58%,#05070b);border-color:rgba(255,255,255,.10);box-shadow:0 30px 90px rgba(0,0,0,.48);}
+body:not([data-theme="light"]) .service-row{border-color:rgba(255,255,255,.09);}
+body:not([data-theme="light"]) .service-row:hover{background:rgba(255,255,255,.045);}
+body:not([data-theme="light"]) .service-row.active{background:#f5f8fc;color:#05070b;border-color:#f5f8fc;box-shadow:0 18px 50px rgba(0,0,0,.34);}
+body:not([data-theme="light"]) .service-row.active h3{color:#05070b;}
+body:not([data-theme="light"]) .work-feature,
+body:not([data-theme="light"]) .work-secondary{background:#070a10;border-color:rgba(255,255,255,.10);box-shadow:0 24px 70px rgba(0,0,0,.30);}
+body:not([data-theme="light"]) .work-thumb{background:#070a10;border-bottom-color:rgba(255,255,255,.10);}
+body:not([data-theme="light"]) .filter-btn{color:#cbd1dc;background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.12);}
+body:not([data-theme="light"]) .filter-btn.active,
+body:not([data-theme="light"]) .filter-btn:hover{color:#030509;background:#fff;border-color:#fff;box-shadow:0 0 22px rgba(255,255,255,.12);}
+body:not([data-theme="light"]) .tool-chip{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.10);color:#f0f3f8;}
+body:not([data-theme="light"]) .project-card,
+body:not([data-theme="light"]) .exp-card,
+body:not([data-theme="light"]) .mile-card,
+body:not([data-theme="light"]) .social-card,
+body:not([data-theme="light"]) .case-step,
+body:not([data-theme="light"]) .contact-line,
+body:not([data-theme="light"]) .contact-form{background:rgba(7,10,15,.72);border-color:rgba(255,255,255,.10);}
+body:not([data-theme="light"]) .project-card:hover,
+body:not([data-theme="light"]) .exp-card:hover,
+body:not([data-theme="light"]) .mile-card:hover,
+body:not([data-theme="light"]) .social-card:hover{background:rgba(13,17,25,.90);border-color:rgba(191,231,255,.28);box-shadow:0 25px 65px rgba(0,0,0,.28);}
+body:not([data-theme="light"]) .social-icon,
+body:not([data-theme="light"]) .exp-icon{background:rgba(191,231,255,.08);}
+body:not([data-theme="light"]) .exp-skills span{background:rgba(255,255,255,.055);color:#aeb7c6;}
+body:not([data-theme="light"]) .timeline::before{background:rgba(255,255,255,.10);}
+body:not([data-theme="light"]) .t-dot{background:#05070b;border-color:#687386;}
+body:not([data-theme="light"]) .t-item.active .t-dot{background:#fff;border-color:#fff;box-shadow:0 0 14px 3px rgba(255,255,255,.5),0 0 28px 5px rgba(128,186,255,.25);}
+body:not([data-theme="light"]) .field input,
+body:not([data-theme="light"]) .field textarea{background:rgba(255,255,255,.025);color:#fff;border-color:rgba(255,255,255,.12);}
+body:not([data-theme="light"]) .field input::placeholder,
+body:not([data-theme="light"]) .field textarea::placeholder{color:#737d8e;}
+body:not([data-theme="light"]) .field input:focus,
+body:not([data-theme="light"]) .field textarea:focus{background:rgba(255,255,255,.05);border-color:#bfe7ff;box-shadow:0 0 0 3px rgba(191,231,255,.06);}
+body:not([data-theme="light"]) .contact-hero{background:radial-gradient(600px 260px at 50% 0%,rgba(111,164,255,.11),transparent 68%),linear-gradient(145deg,#05070b,#090d14);border-color:rgba(255,255,255,.10);box-shadow:0 35px 90px rgba(0,0,0,.42);}
+body:not([data-theme="light"])
+body:not([data-theme="light"]) footer{border-top-color:rgba(255,255,255,.10);}
+body:not([data-theme="light"]) .footer-links a:hover{color:#fff;}
+body:not([data-theme="light"]) .back-top{background:#fff;color:#030509;border-color:#fff;box-shadow:0 0 25px rgba(255,255,255,.16);}
+body:not([data-theme="light"]) .theme-toggle{color:#fff;background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.14);}
+body:not([data-theme="light"]) .mobile-overlay{background:rgba(2,3,6,.98);}
+body:not([data-theme="light"]) .mobile-overlay a{color:#cfd5df;}
+body:not([data-theme="light"]) .hamburger{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.14);}
+body:not([data-theme="light"]) .hamburger span,
+body:not([data-theme="light"]) .hamburger span::before,
+body:not([data-theme="light"]) .hamburger span::after{background:#fff;}
+body:not([data-theme="light"]) .section-kicker{color:rgba(255,255,255,.025);}
+body:not([data-theme="light"]) .marquee-wrap::before{background:linear-gradient(90deg,#020306,transparent);}
+body:not([data-theme="light"]) .marquee-wrap::after{background:linear-gradient(-90deg,#020306,transparent);}
+body:not([data-theme="light"]) .eyebrow,
+body:not([data-theme="light"]) .work-cat,
+body:not([data-theme="light"]) .work-link,
+body:not([data-theme="light"]) .proj-cta,
+body:not([data-theme="light"]) .social-visit,
+body:not([data-theme="light"]) .skill-cat h3,
+body:not([data-theme="light"]) .t-year{text-shadow:0 0 14px rgba(191,231,255,.22);}
+
+
+@media(max-width:600px){.work-thumb{height:210px;}}
+@media(max-width:380px){.work-thumb{height:190px;}}
+
+
+/* =========================================================
+   FINAL DYNAMIC CONTRAST SYSTEM
+   All UI text/backgrounds use semantic theme variables.
+   ========================================================= */
+
+:root{
+  --text-primary:#101522;
+  --text-secondary:#5f6878;
+  --text-muted:#8992a1;
+  --text-inverse:#ffffff;
+  --surface:#ffffff;
+  --surface-soft:rgba(255,255,255,.72);
+  --surface-strong:rgba(255,255,255,.96);
+  --border-soft:rgba(16,21,34,.12);
+  --border-strong:rgba(16,21,34,.24);
+  --shadow-color:rgba(16,21,34,.14);
+  --accent-text:#1747b7;
+  --accent-soft:rgba(29,95,233,.10);
+}
+
+body{
+  --text-primary:#ffffff;
+  --text-secondary:#d5d9e1;
+  --text-muted:#8d96a5;
+  --text-inverse:#020306;
+  --surface:#05070b;
+  --surface-soft:rgba(8,11,17,.72);
+  --surface-strong:rgba(14,18,27,.92);
+  --border-soft:rgba(255,255,255,.12);
+  --border-strong:rgba(255,255,255,.26);
+  --shadow-color:rgba(0,0,0,.42);
+  --accent-text:#bfe7ff;
+  --accent-soft:rgba(191,231,255,.10);
+}
+
+body[data-theme="light"]{
+  --text-primary:#111214;
+  --text-secondary:#55575b;
+  --text-muted:#85878b;
+  --text-inverse:#ffffff;
+  --surface:#ffffff;
+  --surface-soft:rgba(255,255,255,.68);
+  --surface-strong:rgba(255,255,255,.92);
+  --border-soft:rgba(17,18,20,.12);
+  --border-strong:rgba(17,18,20,.28);
+  --shadow-color:rgba(17,18,20,.12);
+  --accent-text:#111827;
+  --accent-soft:rgba(17,18,20,.07);
+}
+
+/* Global semantic text */
+body,
+.nav,
+.section,
+.statement,
+.about-grid,
+.project-card,
+.exp-card,
+.mile-card,
+.social-card,
+.case-step,
+.contact-grid,
+footer{
+  color:var(--text-primary);
+}
+
+body p,
+.hero-sub,
+.statement p,
+.about-grid p,
+.work-body p,
+.proj-meta div p,
+.exp-card p,
+.social-card p,
+.case-step p,
+.contact-note,
+.footer-tag,
+.footer-links a,
+.footer-bottom,
+.nav-links a,
+.skill-card,
+.t-cat{
+  color:var(--text-secondary);
+}
+
+body small,
+.text-muted,
+.work-tools,
+.proj-num,
+.social-card p,
+.exp-card .exp-role,
+.footer-bottom{
+  color:var(--text-muted);
+}
+
+/* Headings must NEVER stay white in light mode */
+h1,h2,h3,h4,h5,h6,
+.display,
+.hero-heading,
+.section-head h2,
+.statement h2,
+.work-body h4,
+.project-card h4,
+.exp-card h4,
+.mile-card h4,
+.social-card h4,
+.case-step h4,
+.skill-card span,
+.t-title,
+.logo,
+.footer-links a{
+  color:var(--text-primary);
+}
+
+/* Explicitly undo hard-coded white heading rules in light mode */
+body[data-theme="light"] h1,
+body[data-theme="light"] h2,
+body[data-theme="light"] h3,
+body[data-theme="light"] h4,
+body[data-theme="light"] h5,
+body[data-theme="light"] h6,
+body[data-theme="light"] .hero-heading,
+body[data-theme="light"] .section-head h2,
+body[data-theme="light"] .statement h2,
+body[data-theme="light"] .work-body h4,
+body[data-theme="light"] .project-card h4,
+body[data-theme="light"] .exp-card h4,
+body[data-theme="light"] .mile-card h4,
+body[data-theme="light"] .social-card h4,
+body[data-theme="light"] .case-step h4,
+body[data-theme="light"] .skill-card span,
+body[data-theme="light"] .t-title{
+  color:var(--text-primary) !important;
+  text-shadow:none;
+}
+
+/* Dark mode explicitly restores luminous white hierarchy */
+body:not([data-theme="light"]) h1,
+body:not([data-theme="light"]) h2,
+body:not([data-theme="light"]) h3,
+body:not([data-theme="light"]) h4,
+body:not([data-theme="light"]) h5,
+body:not([data-theme="light"]) h6,
+body:not([data-theme="light"]) .hero-heading,
+body:not([data-theme="light"]) .section-head h2,
+body:not([data-theme="light"]) .statement h2,
+body:not([data-theme="light"]) .work-body h4,
+body:not([data-theme="light"]) .project-card h4,
+body:not([data-theme="light"]) .exp-card h4,
+body:not([data-theme="light"]) .mile-card h4,
+body:not([data-theme="light"]) .social-card h4,
+body:not([data-theme="light"]) .case-step h4,
+body:not([data-theme="light"]) .skill-card span,
+body:not([data-theme="light"]) .t-title{
+  color:#fff !important;
+  text-shadow:0 0 10px rgba(255,255,255,.08),0 0 30px rgba(167,207,255,.05);
+}
+
+/* Navigation */
+.nav .logo{color:var(--text-primary) !important;}
+.nav-links a{color:var(--text-secondary) !important;}
+.nav-links a:hover,
+.nav-links a.active{color:var(--text-primary) !important;}
+.hamburger span,
+.hamburger span::before,
+.hamburger span::after{background:var(--text-primary) !important;}
+
+/* Buttons */
+.btn-ghost{
+  color:var(--text-primary);
+  background:var(--surface-soft);
+  border-color:var(--border-soft);
+}
+body[data-theme="light"] .btn-primary{
+  color:#fff !important;
+  background:#111214;
+}
+body:not([data-theme="light"]) .btn-primary{
+  color:#020306 !important;
+}
+
+/* Theme-independent form controls */
+.field label{color:var(--text-secondary) !important;}
+.field input,
+.field textarea{
+  color:var(--text-primary) !important;
+  background:var(--surface-soft);
+  border-color:var(--border-soft);
+}
+.field input::placeholder,
+.field textarea::placeholder{color:var(--text-muted) !important;}
+
+/* Cards and generic glass surfaces */
+.glass,
+.stat-card,
+.skill-card,
+.project-card,
+.exp-card,
+.mile-card,
+.social-card,
+.contact-line,
+.contact-form,
+.case-step,
+.tool-chip{
+  color:var(--text-primary);
+  border-color:var(--border-soft);
+}
+
+/* Icons should follow contrast */
+.social-icon svg,
+.exp-icon svg,
+.skill-card svg,
+.contact-line svg,
+.social-card svg{
+  color:var(--accent-text);
+}
+
+/* Links follow current theme */
+.work-link,
+.work-cat,
+.proj-cta,
+.social-visit{
+  color:var(--accent-text);
+}
+
+/* Back-to-top button */
+.back-top{
+  color:var(--text-inverse);
+}
+
+/* Mobile navigation */
+.mobile-overlay{
+  background:var(--surface-strong) !important;
+}
+.mobile-overlay a{
+  color:var(--text-secondary) !important;
+}
+.mobile-overlay a:hover{
+  color:var(--text-primary) !important;
+}
+
+/* Editorial dark panel is intentionally dark in both themes,
+   so its internal text remains inverse by design. */
+.ink-panel,
+.ink-panel h2,
+.ink-panel h3,
+.ink-panel h4,
+.ink-panel .section-head h2{
+  color:#fff;
+}
+.ink-panel p,
+.ink-panel .t-cat,
+.ink-panel .proj-meta div p{
+  color:#c3ccda;
+}
+
+/* Light-mode exception for the dark editorial panel remains deliberate. */
+body[data-theme="light"] .ink-panel{
+  color:#fff;
+}
+
+/* Dark-mode-only glow */
+body:not([data-theme="light"]) .eyebrow,
+body:not([data-theme="light"]) .work-cat,
+body:not([data-theme="light"]) .work-link,
+body:not([data-theme="light"]) .proj-cta,
+body:not([data-theme="light"]) .social-visit,
+body:not([data-theme="light"]) .skill-cat h3,
+body:not([data-theme="light"]) .t-year{
+  text-shadow:0 0 14px rgba(191,231,255,.22);
+}
+
+/* Light mode removes accidental glow from ordinary text */
+body[data-theme="light"] .eyebrow,
+body[data-theme="light"] .work-cat,
+body[data-theme="light"] .work-link,
+body[data-theme="light"] .proj-cta,
+body[data-theme="light"] .social-visit,
+body[data-theme="light"] .skill-cat h3,
+body[data-theme="light"] .t-year{
+  text-shadow:none;
+}
+
+/* Light mode: remove white decorative text artifacts */
+body[data-theme="light"] .portrait-role{
+  color:#3f4650;
+}
+body[data-theme="light"] .portrait-label{
+  color:#111214;
+}
+
+/* Theme-aware hero floating cards */
+.float-card{
+  color:var(--text-primary);
+  background:var(--surface-soft);
+  border:1px solid var(--border-soft);
+}
+
+/* Theme-aware social pills */
+
+/* Theme-aware footer */
+.footer-social a{
+  color:var(--text-primary);
+  border-color:var(--border-soft);
+}
+.footer-social svg{color:var(--text-primary);}
+
+/* Prevent SVG stroke/fill from remaining white outside intentional image overlays */
+.nav svg,
+.theme-toggle svg,
+.hamburger svg,
+.btn svg,
+.social-pill svg,
+.footer-social svg{
+  stroke:currentColor;
+}
+
+/* Smooth theme transition */
+body,
+body *{
+  transition-property:color,background-color,border-color,box-shadow,text-shadow;
+  transition-duration:.35s;
+  transition-timing-function:ease;
+}
+
+
+/* =========================================================
+   HOW I CAN HELP — ACTIVE ACCORDION CONTRAST FIX
+   The global heading !important rules must not override the
+   accordion's active foreground/background pairing.
+   ========================================================= */
+
+/* LIGHT THEME:
+   Inactive rows = dark text on light background.
+   Active row = white text on a dark background. */
+body[data-theme="light"] #serviceList .service-row.active{
+  background:#111722 !important;
+  color:#ffffff !important;
+  border-color:#111722 !important;
+  box-shadow:0 18px 40px rgba(16,21,34,.18) !important;
+}
+
+body[data-theme="light"] #serviceList .service-row.active h3,
+body[data-theme="light"] #serviceList .service-row.active .arrow,
+body[data-theme="light"] #serviceList .service-row.active > div,
+body[data-theme="light"] #serviceList .service-row.active .service-detail p{
+  color:#ffffff !important;
+  text-shadow:none !important;
+}
+
+body[data-theme="light"] #serviceList .service-row.active .service-detail p{
+  color:#c3ccda !important;
+}
+
+body[data-theme="light"] #serviceList .service-row.active .service-art{
+  background:linear-gradient(135deg,#1a2230,#0d111a) !important;
+  border-color:rgba(255,255,255,.12) !important;
+}
+
+/* DARK THEME:
+   Inactive rows = white text on black background.
+   Active row = black text on a light background. */
+body:not([data-theme="light"]) #serviceList .service-row.active{
+  background:#f5f8fc !important;
+  color:#05070b !important;
+  border-color:#f5f8fc !important;
+  box-shadow:0 18px 50px rgba(0,0,0,.34) !important;
+}
+
+body:not([data-theme="light"]) #serviceList .service-row.active h3,
+body:not([data-theme="light"]) #serviceList .service-row.active .arrow,
+body:not([data-theme="light"]) #serviceList .service-row.active > div,
+body:not([data-theme="light"]) #serviceList .service-row.active .service-detail p{
+  color:#05070b !important;
+  text-shadow:none !important;
+}
+
+body:not([data-theme="light"]) #serviceList .service-row.active .service-detail p{
+  color:#454d5b !important;
+}
+
+body:not([data-theme="light"]) #serviceList .service-row.active .service-art{
+  background:linear-gradient(135deg,#eef2f7,#dfe6ef) !important;
+  border-color:rgba(5,7,11,.14) !important;
+}
+
+/* Keep inactive rows dynamically tied to the current theme. */
+body[data-theme="light"] #serviceList .service-row:not(.active){
+  color:#111214;
+}
+
+body[data-theme="light"] #serviceList .service-row:not(.active) h3{
+  color:#111214 !important;
+  text-shadow:none !important;
+}
+
+body[data-theme="light"] #serviceList .service-row:not(.active) .arrow{
+  color:#111214 !important;
+}
+
+body:not([data-theme="light"]) #serviceList .service-row:not(.active){
+  color:#ffffff;
+}
+
+body:not([data-theme="light"]) #serviceList .service-row:not(.active) h3{
+  color:#ffffff !important;
+  text-shadow:0 0 10px rgba(255,255,255,.08),0 0 26px rgba(167,207,255,.04);
+}
+
+body:not([data-theme="light"]) #serviceList .service-row:not(.active) .arrow{
+  color:#ffffff !important;
+}
+
+/* Smoothly switch the accordion foreground/background as the theme changes. */
+#serviceList .service-row,
+#serviceList .service-row h3,
+#serviceList .service-row .arrow,
+#serviceList .service-row .service-detail p{
+  transition:
+    color .35s ease,
+    background-color .35s ease,
+    border-color .35s ease,
+    box-shadow .35s ease,
+    text-shadow .35s ease,
+    padding .35s var(--ease);
+}
+
+
+/* =========================================================
+   SERVICE TABS — IMAGE THUMBNAILS
+   thumbnail8.jpg → thumbnail11.jpg
+   ========================================================= */
+.service-row.active .service-detail{
+  max-height:340px;
+  grid-template-columns:minmax(0,1fr) minmax(180px,360px);
+  gap:28px;
+  align-items:center;
+}
+
+.service-detail .service-art{
+  width:100%;
+  height:190px;
+  justify-self:end;
+  border-radius:16px;
+  overflow:hidden;
+  position:relative;
+  background:#0d111a;
+}
+
+.service-detail .service-art img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transition:transform .55s var(--ease),filter .45s ease;
+}
+
+.service-row:hover .service-art img{
+  transform:scale(1.035);
+}
+
+.service-row.active .service-art::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.04),rgba(0,0,0,.12));
+}
+
+@media(max-width:800px){
+  .service-row.active .service-detail{
+    grid-template-columns:1fr;
+    max-height:520px;
+  }
+  .service-detail .service-art{
+    justify-self:stretch;
+    width:100%;
+    height:190px;
+    order:2;
+  }
+}
+
+/* =========================================================
+   A FEW THINGS I'VE MADE — IMAGE THUMBNAILS
+   thumbnail12.jpg → thumbnail14.jpg
+   ========================================================= */
+.editorial-work .work-feature,
+.editorial-work .work-secondary{
+  position:relative;
+  overflow:hidden;
+}
+
+.editorial-work .work-feature .work-art,
+.editorial-work .work-secondary .work-art{
+  position:absolute;
+  inset:0;
+  background:none !important;
+}
+
+.editorial-work .work-feature .work-art img,
+.editorial-work .work-secondary .work-art img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transition:transform .7s var(--ease),filter .5s ease;
+}
+
+.editorial-work .work-feature:hover .work-art img,
+.editorial-work .work-secondary:hover .work-art img{
+  transform:scale(1.055);
+  filter:saturate(1.06);
+}
+
+.editorial-work .work-feature .work-overlay,
+.editorial-work .work-secondary .work-overlay{
+  z-index:2;
+}
+
+@media(max-width:800px){
+  .editorial-work .work-feature .work-art img,
+  .editorial-work .work-secondary .work-art img{
+    object-position:center;
+  }
+}
+
+
+/* =========================================================
+   EXPERIENCE & CONTRIBUTIONS — HIGH CONTRAST EDITORIAL UI
+   ========================================================= */
+.experience-section{
+  position:relative;
+}
+
+.experience-section .section-intro{
+  max-width:650px;
+  margin-top:14px;
+  color:var(--text-secondary);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.experience-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+  margin-top:42px;
+}
+
+.experience-card{
+  position:relative;
+  min-height:320px;
+  padding:28px;
+  overflow:hidden;
+  border-radius:22px;
+  border:1px solid var(--border-soft);
+  background:var(--surface-soft);
+  color:var(--text-primary);
+  box-shadow:0 18px 55px var(--shadow-color);
+  isolation:isolate;
+  transition:
+    transform .4s var(--ease),
+    border-color .35s ease,
+    background .35s ease,
+    box-shadow .35s ease;
+}
+
+.experience-card::before{
+  content:'';
+  position:absolute;
+  width:240px;
+  height:240px;
+  right:-110px;
+  top:-110px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(68,135,255,.15),transparent 68%);
+  z-index:-1;
+  pointer-events:none;
+}
+
+.experience-card::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.045),transparent 42%);
+  opacity:.8;
+  z-index:-1;
+}
+
+.experience-card:hover{
+  transform:translateY(-7px);
+  border-color:var(--border-strong);
+  background:var(--surface-strong);
+  box-shadow:0 28px 75px var(--shadow-color);
+}
+
+.experience-card-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:34px;
+}
+
+.experience-number{
+  font-family:var(--font-display);
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:var(--text-muted);
+}
+
+.experience-icon{
+  width:48px;
+  height:48px;
+  flex:0 0 48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  color:var(--accent-text);
+  background:var(--accent-soft);
+  border:1px solid var(--border-soft);
+}
+
+.experience-icon svg{
+  width:21px;
+  height:21px;
+}
+
+.experience-category{
+  display:inline-block;
+  margin-bottom:10px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.16em;
+  color:var(--accent-text);
+}
+
+.experience-card h3{
+  margin:0;
+  color:var(--text-primary) !important;
+  font-family:var(--font-display);
+  font-size:clamp(22px,2.5vw,30px);
+  font-weight:600;
+  line-height:1.1;
+  text-shadow:none;
+}
+
+.experience-role{
+  margin-top:7px;
+  color:var(--text-secondary);
+  font-size:12.5px;
+  font-weight:600;
+}
+
+.experience-card-content p{
+  max-width:560px;
+  margin:18px 0 22px;
+  color:var(--text-secondary);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.experience-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+.experience-tags span{
+  padding:7px 11px;
+  border-radius:999px;
+  border:1px solid var(--border-soft);
+  background:var(--accent-soft);
+  color:var(--text-secondary);
+  font-size:10.5px;
+  font-weight:600;
+}
+
+/* Light theme: explicit black-on-white hierarchy */
+body[data-theme="light"] .experience-card{
+  background:rgba(255,255,255,.82);
+  border-color:rgba(17,18,20,.13);
+  box-shadow:0 18px 55px rgba(17,18,20,.08);
+}
+body[data-theme="light"] .experience-card:hover{
+  background:#fff;
+  border-color:rgba(17,18,20,.28);
+  box-shadow:0 28px 75px rgba(17,18,20,.12);
+}
+body[data-theme="light"] .experience-card h3{
+  color:#111214 !important;
+}
+body[data-theme="light"] .experience-role,
+body[data-theme="light"] .experience-card-content p{
+  color:#55575b;
+}
+body[data-theme="light"] .experience-number{
+  color:#85878b;
+}
+body[data-theme="light"] .experience-icon{
+  color:#1747b7;
+  background:rgba(29,95,233,.08);
+  border-color:rgba(17,18,20,.10);
+}
+body[data-theme="light"] .experience-category{
+  color:#1747b7;
+}
+body[data-theme="light"] .experience-tags span{
+  color:#55575b;
+  background:#f1f3f6;
+  border-color:rgba(17,18,20,.10);
+}
+
+/* Dark theme: white hierarchy on near-black surfaces */
+body:not([data-theme="light"]) .experience-card{
+  background:rgba(7,10,15,.78);
+  border-color:rgba(255,255,255,.11);
+  box-shadow:0 22px 65px rgba(0,0,0,.38);
+}
+body:not([data-theme="light"]) .experience-card:hover{
+  background:rgba(12,16,23,.94);
+  border-color:rgba(191,231,255,.30);
+  box-shadow:0 30px 80px rgba(0,0,0,.50);
+}
+body:not([data-theme="light"]) .experience-card h3{
+  color:#fff !important;
+  text-shadow:0 0 12px rgba(255,255,255,.07);
+}
+body:not([data-theme="light"]) .experience-role,
+body:not([data-theme="light"]) .experience-card-content p{
+  color:#cbd1dc;
+}
+body:not([data-theme="light"]) .experience-number{
+  color:#7f8999;
+}
+body:not([data-theme="light"]) .experience-icon{
+  color:#bfe7ff;
+  background:rgba(191,231,255,.08);
+  border-color:rgba(191,231,255,.16);
+}
+body:not([data-theme="light"]) .experience-category{
+  color:#bfe7ff;
+  text-shadow:0 0 14px rgba(191,231,255,.18);
+}
+body:not([data-theme="light"]) .experience-tags span{
+  color:#cbd1dc;
+  background:rgba(255,255,255,.055);
+  border-color:rgba(255,255,255,.10);
+}
+
+@media(max-width:900px){
+  .experience-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+@media(max-width:680px){
+  .experience-grid{
+    grid-template-columns:1fr;
+    gap:14px;
+    margin-top:30px;
+  }
+  .experience-card{
+    min-height:0;
+    padding:23px;
+  }
+  .experience-card-top{
+    margin-bottom:26px;
+  }
+}
+
+
+/* =========================================================
+   FINAL MOBILE SERVICE IMAGE FIX
+   ========================================================= */
+.service-row.active .service-detail{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(210px,360px) !important;
+  gap:28px;
+  align-items:center;
+  max-height:360px !important;
+  overflow:visible !important;
+  opacity:1 !important;
+}
+
+.service-row.active .service-detail .service-art{
+  display:block !important;
+  width:100% !important;
+  height:190px !important;
+  min-height:190px !important;
+  justify-self:end;
+  overflow:hidden !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}
+
+.service-row.active .service-detail .service-art img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-height:190px !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}
+
+@media (max-width:800px){
+  .service-row.active .service-detail{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:17px !important;
+    max-height:560px !important;
+    overflow:visible !important;
+    padding-top:18px !important;
+  }
+
+  .service-row.active .service-detail p{
+    order:1;
+    width:100%;
+    max-width:none;
+  }
+
+  .service-row.active .service-detail .service-art{
+    order:2;
+    width:100% !important;
+    height:205px !important;
+    min-height:205px !important;
+    justify-self:stretch !important;
+  }
+
+  .service-row.active .service-detail .service-art img{
+    width:100% !important;
+    height:205px !important;
+    min-height:205px !important;
+    object-fit:cover !important;
+  }
+}
+
+@media (max-width:480px){
+  .service-row.active .service-detail{
+    gap:14px !important;
+    max-height:540px !important;
+  }
+
+  .service-row.active .service-detail .service-art,
+  .service-row.active .service-detail .service-art img{
+    height:185px !important;
+    min-height:185px !important;
+    border-radius:13px;
+  }
+}
+
+
+.form-submit-note{
+  margin-top:12px;
+  text-align:center;
+  color:var(--text-muted);
+  font-size:12px;
+  line-height:1.5;
+}
+
+
+img{
+  max-width:100%;
+  height:auto;
+}
+
+
+/* =========================================================
+   SOCIAL PROFILE LINKS
+   ========================================================= */
+.social-card{
+  cursor:pointer;
+}
+.social-visit{
+  position:relative;
+  z-index:2;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+  text-decoration:none;
+}
+.social-visit:hover{
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+
+</style>
+<style>
+.form-submit-note{
+  margin-top:12px;
+  color:var(--ink-faint);
+  font-size:12px;
+  line-height:1.5;
+}
+.contact-form button[type="submit"]:disabled{cursor:wait;}
 </style>
 </head>
 <body>
@@ -1455,7 +2467,7 @@ p, h1, h2, h3, h4, h5, a, span{
         <div class="rings"><span style="width:120%;height:120%;top:-10%;left:-10%;"></span><span style="width:150%;height:150%;top:-25%;left:-25%;"></span></div>
 <div class="portrait-placeholder">
     <img 
-        src="Vaibhav-Business Card.jpg" 
+        src="images/Vaibhav-Business Card.jpg" 
         alt="RJ Vaibhav - Creative Tech Portfolio Poster"
         class="portrait-poster"
     >
@@ -1631,63 +2643,75 @@ p, h1, h2, h3, h4, h5, a, span{
     </div>
     <div class="work-grid" id="workGrid">
       <div class="work-card glass reveal" data-cat="video" data-hover-project>
-        <div class="work-thumb"><span>Project Thumbnail</span></div>
+<div class="work-thumb">
+    <img src="images/thumbnail1.jpeg" alt="Creative project thumbnail 1" loading="lazy">
+</div>
         <div class="work-body">
           <span class="work-cat">Video Editing</span>
-          <h4>Cinematic Reel Edit</h4>
+          <h4>AVYAY Video Edit</h4>
           <p>A short-form cinematic edit exploring pacing, color and sound design.</p>
           <div class="work-tools">DaVinci Resolve · Premiere Pro</div>
-          <a href="#contact" class="work-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
+          <a href="https://www.instagram.com/reel/DG0h_fCutmD/?igsh=ODl5dGM0MW5qNmEx&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAcGRvZgJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAadWoqut8GA1-uR6U_7vm_d3xKrGRJsmFb8vQfJK3NKZKVaekVQ6ZX9zRnKR3g_aem_rfTzdlYbR4YgYaAjfgj-7A" class="work-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
         </div>
       </div>
       <div class="work-card glass reveal reveal-delay-1" data-cat="design" data-hover-project>
-        <div class="work-thumb"><span>Project Thumbnail</span></div>
+        <div class="work-thumb">
+          <img src="images/thumbnail2.jpg" alt="Creative project thumbnail 2" loading="lazy">
+        </div>
         <div class="work-body">
           <span class="work-cat">Graphic Design</span>
           <h4>Event Poster Series</h4>
           <p>A branded poster set designed for a college fest, built around a bold visual system.</p>
           <div class="work-tools">Figma · Canva</div>
-          <a href="#contact" class="work-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
+          <a href="https://gravitas.vit.ac.in/events/f56391cd-f653-415c-bcf8-fae8d05b9fc5" class="work-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
         </div>
       </div>
       <div class="work-card glass reveal reveal-delay-2" data-cat="radio" data-hover-project>
-        <div class="work-thumb"><span>Project Thumbnail</span></div>
+        <div class="work-thumb">
+          <img src="images/thumbnail3.jpeg" alt="Creative project thumbnail 3" loading="lazy">
+        </div>
         <div class="work-body">
           <span class="work-cat">Radio / Audio</span>
           <h4>On-Air Segment</h4>
           <p>A recorded RJ segment showcasing voice presentation and audio editing.</p>
           <div class="work-tools">Audacity · Adobe Audition</div>
-          <a href="#contact" class="work-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
+          <a href="https://open.spotify.com/episode/0vv1oAJLAWOXTAN2rdQhE5?si=NYQlaDRNSOuRIgbn5xAFbg&utm_source=copy-link&sci=spotify%3Acard-config%3A1WjbSPsxR6UIp5kZFjMlQq" class="work-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
         </div>
       </div>
       <div class="work-card glass reveal" data-cat="design" data-hover-project>
-        <div class="work-thumb"><span>Project Thumbnail</span></div>
+        <div class="work-thumb">
+          <img src="images/thumbnail4.jpeg" alt="Creative project thumbnail 4" loading="lazy">
+        </div>
         <div class="work-body">
           <span class="work-cat">Social Media Design</span>
           <h4>Promotional Creative Set</h4>
           <p>A set of social media creatives designed for a brand promotion campaign.</p>
           <div class="work-tools">Canva · Photoshop</div>
-          <a href="#contact" class="work-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
+          <a href="https://www.instagram.com/reel/DZrNBbKh9UJ/?igsh=aGtuNjZoNmg2bTA2" class="work-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
         </div>
       </div>
       <div class="work-card glass reveal reveal-delay-1" data-cat="content" data-hover-project>
-        <div class="work-thumb"><span>Project Thumbnail</span></div>
+        <div class="work-thumb">
+          <img src="images/thumbnail5.jpeg" alt="Creative project thumbnail 5" loading="lazy">
+        </div>
         <div class="work-body">
           <span class="work-cat">Digital Content</span>
-          <h4>Behind-the-Scenes Series</h4>
+          <h4>Behind-the-Scenes to 20K views</h4>
           <p>Short-form content capturing creative process across events and shoots.</p>
           <div class="work-tools">Premiere Pro · Instagram</div>
-          <a href="#contact" class="work-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
+          <a href="https://www.instagram.com/reel/DcBT9saOiuj/?igsh=OWtycThndDR2bmJ4" class="work-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
         </div>
       </div>
       <div class="work-card glass reveal reveal-delay-2" data-cat="video" data-hover-project>
-        <div class="work-thumb"><span>Project Thumbnail</span></div>
+        <div class="work-thumb">
+          <img src="images/thumbnail6.jpeg" alt="Creative project thumbnail 6" loading="lazy">
+        </div>
         <div class="work-body">
           <span class="work-cat">Video Editing</span>
           <h4>Event Highlight Film</h4>
-          <p>A highlight edit capturing the energy of a live campus event.</p>
+          <p>A highlight edit capturing the energy of a radio live on occasion of Women's Day.</p>
           <div class="work-tools">DaVinci Resolve</div>
-          <a href="#contact" class="work-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
+          <a href="https://www.instagram.com/reel/DG7qzl2uWjD/?igsh=MW41bjBoOWFwY3M5Ng%3D%3D&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAcGRvZgJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAadWoqut8GA1-uR6U_7vm_d3xKrGRJsmFb8vQfJK3NKZKVaekVQ6ZX9zRnKR3g_aem_rfTzdlYbR4YgYaAjfgj-7A" class="work-link">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
         </div>
       </div>
     </div>
@@ -1709,7 +2733,7 @@ p, h1, h2, h3, h4, h5, a, span{
           <h3>UI/UX &amp; Visual Design</h3>
           <div class="service-detail">
             <p>Designing clear, modern and scalable interfaces, posters and digital experiences with a strong focus on hierarchy, storytelling and usability.</p>
-            <div class="service-art"></div>
+            <div class="service-art"><img src="images/thumbnail8.jpeg" alt="UI/UX and visual design work" loading="lazy"></div>
           </div>
         </div><div class="arrow">↗</div>
       </div>
@@ -1718,8 +2742,17 @@ p, h1, h2, h3, h4, h5, a, span{
           <h3>Video Editing &amp; Motion</h3>
           <div class="service-detail">
             <p>Turning raw footage into engaging reels, event films and social content through pacing, sound design, transitions and visual rhythm.</p>
-            <div class="service-art"></div>
-          </div>
+<div class="service-art">
+    <video
+        src="images/thumbnail9.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="Video editing and motion work">
+    </video>
+</div>          </div>
         </div><div class="arrow">↗</div>
       </div>
       <div class="service-row">
@@ -1727,7 +2760,7 @@ p, h1, h2, h3, h4, h5, a, span{
           <h3>Radio &amp; Sound Engineering</h3>
           <div class="service-detail">
             <p>Voice presentation, RJ segments and audio production built to communicate clearly and keep audiences engaged.</p>
-            <div class="service-art"></div>
+            <div class="service-art"><img src="images/thumbnail10.jpeg" alt="Radio and sound engineering work" loading="lazy"></div>
           </div>
         </div><div class="arrow">↗</div>
       </div>
@@ -1735,8 +2768,8 @@ p, h1, h2, h3, h4, h5, a, span{
         <div>
           <h3>Web &amp; Software Projects</h3>
           <div class="service-detail">
-            <p>Building practical digital experiences using software engineering principles, programming, data structures and modern web technologies.</p>
-            <div class="service-art"></div>
+            <p>Building practical digital experiences using software engineering principles, PLC programming, data structures and modern web technologies with IoT.</p>
+            <div class="service-art"><img src="images/thumbnail11.jpeg" alt="Web and software project work" loading="lazy"></div>
           </div>
         </div><div class="arrow">↗</div>
       </div>
@@ -1754,28 +2787,25 @@ p, h1, h2, h3, h4, h5, a, span{
     </div>
     <div class="editorial-work">
       <a class="work-feature reveal" href="#work" data-hover-project>
-        <div class="work-art"></div>
+        <div class="work-art"><img src="images/thumbnail12.png" alt="Creative direction and video project" loading="lazy"></div>
         <div class="work-overlay">
-          <span class="work-index">01 / FEATURED</span>
-          <h3>Creative Direction &amp; Video</h3>
-          <p>Visual storytelling, editing and content design brought together as one experience.</p>
-          <span class="pill">Video · Content · Motion ↗</span>
+          <h3>Stock managing for Own Family Business</h3>
+          <p>No Network, No Problem, Using Json data to conntect and use dynamically regarless of systems connected.</p>
+          <span class="pill">Stock · Sell · Supervise ↗</span>
         </div>
       </a>
       <div class="work-secondary-grid">
         <a class="work-secondary reveal reveal-delay-1" href="#work" data-hover-project>
-          <div class="work-art"></div>
+          <div class="work-art"><img src="images/thumbnail13.png" alt="Graphic and UI design project" loading="lazy"></div>
           <div class="work-overlay">
-            <span class="work-index">02 / DESIGN</span>
-            <h3>Graphic &amp; UI Design</h3>
+            <h3>Graphic &amp; Logo Design</h3>
             <p>Posters, interfaces and digital creatives.</p>
             <span class="pill">Design ↗</span>
           </div>
         </a>
         <a class="work-secondary reveal reveal-delay-2" href="#projects" data-hover-project>
-          <div class="work-art"></div>
+          <div class="work-art"><img src="images/thumbnail14.png" alt="Software project" loading="lazy"></div>
           <div class="work-overlay">
-            <span class="work-index">03 / TECH</span>
             <h3>Software Projects</h3>
             <p>Ideas translated into functional digital solutions.</p>
             <span class="pill">Code · DSA ↗</span>
@@ -1817,12 +2847,11 @@ p, h1, h2, h3, h4, h5, a, span{
       <div class="proj-body">
         <h4>Software Engineering Project</h4>
         <div class="proj-meta">
-          <div><h5>Problem</h5><p>To be added — real project details will populate this space.</p></div>
-          <div><h5>Solution</h5><p>To be added — approach and implementation summary.</p></div>
-          <div><h5>Technology</h5><p>C / Data Structures / Web Technologies</p></div>
-          <div><h5>Role</h5><p>Developer</p></div>
+          <div><h5>Problem</h5><p>Lowcost Smart EV Charger</p></div>
+          <div><h5>Solution</h5><p>Reducing unwanted sensor and making multi-use charger.</p></div>
+          <div><h5>Technology</h5><p>PlatformIO / Data Structures / Web Technologies</p></div>
+          <div><h5>Role</h5><p>Developer & Designer</p></div>
         </div>
-        <a href="#contact" class="proj-cta">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
       </div>
     </div>
 
@@ -1834,12 +2863,11 @@ p, h1, h2, h3, h4, h5, a, span{
       <div class="proj-body">
         <h4>UI / UX Project</h4>
         <div class="proj-meta">
-          <div><h5>Problem</h5><p>To be added — real project details will populate this space.</p></div>
-          <div><h5>Solution</h5><p>To be added — approach and implementation summary.</p></div>
+          <div><h5>Problem</h5><p>ParkIT-Managing Unused Parking Spaces.</p></div>
+          <div><h5>Solution</h5><p>Gps based Slot Allocation System.</p></div>
           <div><h5>Technology</h5><p>Figma / HTML / CSS</p></div>
           <div><h5>Role</h5><p>Designer</p></div>
         </div>
-        <a href="#contact" class="proj-cta">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
       </div>
     </div>
 
@@ -1851,60 +2879,119 @@ p, h1, h2, h3, h4, h5, a, span{
       <div class="proj-body">
         <h4>Academic Project</h4>
         <div class="proj-meta">
-          <div><h5>Problem</h5><p>To be added — real project details will populate this space.</p></div>
-          <div><h5>Solution</h5><p>To be added — approach and implementation summary.</p></div>
-          <div><h5>Technology</h5><p>C / DSA</p></div>
+          <div><h5>Problem</h5><p>Harmful vs Harmless Insect Analysis.</p></div>
+          <div><h5>Solution</h5><p>Classifying insects instantaneously to prevent harms.</p></div>
+          <div><h5>Technology</h5><p>AI / ML / TensorFlow / </p></div>
           <div><h5>Role</h5><p>Developer</p></div>
         </div>
-        <a href="#contact" class="proj-cta">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- EXPERIENCE -->
-<section class="section" id="experience">
-  <div class="wrap"><div class="ink-panel" style="padding:58px 0;">
+<!-- EXPERIENCE & CONTRIBUTIONS -->
+<section class="section experience-section" id="experience">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">Track Record</span>
       <h2>Experience &amp; Contributions.</h2>
+      <p class="section-intro">A blend of creative work, media experience and software engineering growth.</p>
     </div>
-    <div class="exp-grid">
-      <div class="exp-card glass reveal">
-        <div class="exp-top">
-          <div class="exp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9M19.1 4.9c3.9 3.9 3.9 10.3 0 14.2M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.4M16.2 7.8c2.3 2.3 2.3 6.1 0 8.4M12 12h.01"/></svg></div>
-          <div><h4>Campus Radio</h4><div class="exp-role">Radio Jockey</div></div>
+
+    <div class="experience-grid">
+      <article class="experience-card reveal">
+        <div class="experience-card-top">
+          <div class="experience-number">01</div>
+          <div class="experience-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9M19.1 4.9c3.9 3.9 3.9 10.3 0 14.2M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.4M16.2 7.8c2.3 2.3 2.3 6.1 0 8.4M12 12h.01"/>
+            </svg>
+          </div>
         </div>
-        <p>On-air presentation and audio content for campus radio programming.</p>
-        <div class="exp-skills"><span>Voice Presentation</span><span>Audio Editing</span></div>
-      </div>
-      <div class="exp-card glass reveal reveal-delay-1">
-        <div class="exp-top">
-          <div class="exp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.55-2.28A1 1 0 0121 8.62v6.76a1 1 0 01-1.45.9L15 14M5 6h9a1 1 0 011 1v10a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1z"/></svg></div>
-          <div><h4>Independent Work</h4><div class="exp-role">Video Editor</div></div>
+        <div class="experience-card-content">
+          <span class="experience-category">MEDIA</span>
+          <h3>Campus Radio</h3>
+          <div class="experience-role">Radio Jockey</div>
+          <p>On-air presentation and audio content for campus radio programming.</p>
+          <div class="experience-tags">
+            <span>Voice Presentation</span>
+            <span>Audio Editing</span>
+            <span>RodeCaster Console operating</span>
+          </div>
         </div>
-        <p>Editing short-form and event videos for campus and personal projects.</p>
-        <div class="exp-skills"><span>DaVinci Resolve</span><span>Storytelling</span></div>
-      </div>
-      <div class="exp-card glass reveal reveal-delay-2">
-        <div class="exp-top">
-          <div class="exp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2a10 10 0 100 20 3 3 0 003-3 2 2 0 012-2h2.5a2.5 2.5 0 000-5H16a4 4 0 01-4-4c0-1.5.8-2.5 2-3.5C13.3 2.2 12.6 2 12 2z"/></svg></div>
-          <div><h4>Freelance / Campus</h4><div class="exp-role">Graphic Designer</div></div>
+      </article>
+
+      <article class="experience-card reveal reveal-delay-1">
+        <div class="experience-card-top">
+          <div class="experience-number">02</div>
+          <div class="experience-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M15 10l4.55-2.28A1 1 0 0121 8.62v6.76a1 1 0 01-1.45.9L15 14M5 6h9a1 1 0 011 1v10a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1z"/>
+            </svg>
+          </div>
         </div>
-        <p>Designing posters, social creatives and branding assets for events.</p>
-        <div class="exp-skills"><span>Figma</span><span>Canva</span></div>
-      </div>
-      <div class="exp-card glass reveal reveal-delay-3">
-        <div class="exp-top">
-          <div class="exp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-          <div><h4>M.Tech ISE</h4><div class="exp-role">Software Engineering Student</div></div>
+        <div class="experience-card-content">
+          <span class="experience-category">CREATIVE</span>
+          <h3>Independent Work</h3>
+          <div class="experience-role">Video Editor</div>
+          <p>Editing short-form and event videos with an emphasis on pacing, storytelling and visual rhythm.</p>
+          <div class="experience-tags">
+            <span>DaVinci Resolve</span>
+            <span>Premiere Pro</span>
+          </div>
         </div>
-        <p>Coursework and independent practice in programming and data structures.</p>
-        <div class="exp-skills"><span>C</span><span>DSA</span><span>Git</span></div>
-      </div>
+      </article>
+
+      <article class="experience-card reveal reveal-delay-2">
+        <div class="experience-card-top">
+          <div class="experience-number">03</div>
+          <div class="experience-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="13.5" cy="6.5" r=".5"/>
+              <circle cx="17.5" cy="10.5" r=".5"/>
+              <circle cx="8.5" cy="7.5" r=".5"/>
+              <circle cx="6.5" cy="12.5" r=".5"/>
+              <path d="M12 2a10 10 0 100 20 3 3 0 003-3 2 2 0 012-2h2.5a2.5 2.5 0 000-5H16a4 4 0 01-4-4c0-1.5.8-2.5 2-3.5C13.3 2.2 12.6 2 12 2z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="experience-card-content">
+          <span class="experience-category">DESIGN</span>
+          <h3>Freelance / Campus</h3>
+          <div class="experience-role">Graphic Designer</div>
+          <p>Designing posters, social creatives and branding assets for events and digital communication.</p>
+          <div class="experience-tags">
+            <span>Figma</span>
+            <span>Canva</span>
+            <span>Illustrator</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="experience-card reveal reveal-delay-3">
+        <div class="experience-card-top">
+          <div class="experience-number">04</div>
+          <div class="experience-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+        </div>
+        <div class="experience-card-content">
+          <span class="experience-category">TECHNOLOGY</span>
+          <h3>M.Tech ISE</h3>
+          <div class="experience-role">Software Engineering Student</div>
+          <p>Building technical foundations through programming, data structures, software engineering and project work.</p>
+          <div class="experience-tags">
+            <span>C/C++</span>
+            <span>DSA</span>
+            <span>Git & GitHub</span>
+          </div>
+        </div>
+      </article>
     </div>
-  </div></div>
+  </div>
 </section>
 
 <!-- MILESTONES -->
@@ -1932,28 +3019,20 @@ p, h1, h2, h3, h4, h5, a, span{
       <span class="eyebrow">Online</span>
       <h2>Find Me Online.</h2>
     </div>
-
-    <div class="social-pill-row reveal">
-      <a class="social-pill" href="#" target="_blank" rel="noopener" data-social="instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>Instagram ↗</a>
-      <a class="social-pill" href="#" target="_blank" rel="noopener" data-social="linkedin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn ↗</a>
-      <a class="social-pill" href="#" target="_blank" rel="noopener" data-social="github"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 00-1-2.6c3 0 6-2 6-5.5.1-1.3-.4-2.6-1.2-3.6.2-1 .2-2.1-.2-3.4 0 0-1 0-3 1.4a12.3 12.3 0 00-6.4 0C6.4 3 5.4 3 5.4 3c-.4 1.3-.4 2.4-.2 3.4A5.4 5.4 0 004 10c0 3.5 3 5.5 6 5.5-.4.4-.7.9-.9 1.4-.2.6-.2 1.2-.1 1.7v3.9"/></svg>GitHub ↗</a>
-      <a class="social-pill" href="#" target="_blank" rel="noopener" data-social="youtube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.5 6.2a2.8 2.8 0 00-2-2C18.9 3.7 12 3.7 12 3.7s-6.9 0-8.5.5a2.8 2.8 0 00-2 2A29 29 0 001 12a29 29 0 00.5 5.8 2.8 2.8 0 002 2c1.6.5 8.5.5 8.5.5s6.9 0 8.5-.5a2.8 2.8 0 002-2A29 29 0 0023 12a29 29 0 00-.5-5.8z"/><polygon points="9.8,15.5 15.8,12 9.8,8.5"/></svg>YouTube ↗</a>
-    </div>
-
-    <div class="social-grid">
-      <a href="#" class="social-card glass reveal" data-social="instagram" data-hover>
+<div class="social-grid">
+      <a href="https://www.instagram.com/vibevaibhav/" target="_blank" rel="noopener noreferrer" class="social-card glass reveal" data-social="instagram" data-hover>
         <div class="social-top"><div class="social-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></svg></div></div>
         <h4>Instagram</h4>
         <p>Creative work, visuals &amp; everyday moments.</p>
         <span class="social-visit">Visit Profile <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></span>
       </a>
-      <a href="#" class="social-card glass reveal reveal-delay-1" data-hover>
+      <a href="https://www.linkedin.com/in/nithishvaibhav-e/" target="_blank" rel="noopener noreferrer" class="social-card glass reveal reveal-delay-1" data-hover>
         <div class="social-top"><div class="social-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div></div>
         <h4>LinkedIn</h4>
         <p>Professional journey, projects &amp; achievements.</p>
         <span class="social-visit">Visit Profile <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></span>
       </a>
-      <a href="#" class="social-card glass reveal reveal-delay-2" data-hover>
+      <a href="https://github.com/RJVIBEVAIBHAV" target="_blank" rel="noopener noreferrer" class="social-card glass reveal reveal-delay-2" data-hover>
         <div class="social-top"><div class="social-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 00-1-2.6c3 0 6-2 6-5.5.1-1.3-.4-2.6-1.2-3.6.2-1 .2-2.1-.2-3.4 0 0-1 0-3 1.4a12.3 12.3 0 00-6.4 0C6.4 3 5.4 3 5.4 3c-.4 1.3-.4 2.4-.2 3.4A5.4 5.4 0 004 10c0 3.5 3 5.5 6 5.5-.4.4-.7.9-.9 1.4-.2.6-.2 1.2-.1 1.7v3.9"/></svg></div></div>
         <h4>GitHub</h4>
         <p>Code, projects &amp; experiments.</p>
@@ -1969,32 +3048,12 @@ p, h1, h2, h3, h4, h5, a, span{
   </div>
 </section>
 
-<!-- BEHIND THE SCENES -->
-<section class="section" id="bts">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="eyebrow">Instagram</span>
-      <h2>Behind The Scenes.</h2>
-    </div>
-    <div class="bts-grid">
-      <div class="bts-item reveal"><div class="bts-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg><span>On-set reel</span></div></div>
-      <div class="bts-item reveal"><div class="bts-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg><span>Poster design</span></div></div>
-      <div class="bts-item reveal"><div class="bts-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg><span>Radio moment</span></div></div>
-      <div class="bts-item reveal"><div class="bts-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg><span>Event coverage</span></div></div>
-      <div class="bts-item reveal"><div class="bts-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg><span>Design draft</span></div></div>
-      <div class="bts-item reveal"><div class="bts-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg><span>Edit session</span></div></div>
-      <div class="bts-item reveal"><div class="bts-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg><span>Experiment</span></div></div>
-      <div class="bts-item reveal"><div class="bts-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg><span>Behind the mic</span></div></div>
-    </div>
-  </div>
-</section>
-
 <!-- YOUTUBE SHOWCASE -->
 <section class="section" id="youtube">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">Video</span>
-      <h2>Watch My Work.</h2>
+      <h2>Watch My Vlogs Soon in Future.</h2>
     </div>
     <div class="yt-grid">
       <div class="yt-card glass reveal">
@@ -2010,7 +3069,7 @@ p, h1, h2, h3, h4, h5, a, span{
         <div class="yt-body"><span>Content</span><h5>Behind the Scenes</h5></div>
       </div>
     </div>
-    <div class="yt-cta reveal"><a href="https://youtube.com/@yourchannel" target="_blank" rel="noopener" class="btn btn-ghost">Visit My YouTube Channel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a></div>
+    <div class="yt-cta reveal"><a href="https://youtube.com/@rjvibevaibhav?si=YKOEojo05buKWqWE" target="_blank" rel="noopener" class="btn btn-ghost">Visit My YouTube Channel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></a></div>
   </div>
 </section>
 
@@ -2050,16 +3109,45 @@ p, h1, h2, h3, h4, h5, a, span{
     </div>
 
     <div class="contact-grid" style="margin-top:42px;">
-      <form class="contact-form glass reveal" id="contactForm">
-        <div class="field"><label for="cName">Name</label><input id="cName" type="text" placeholder="Your name" required /></div>
-        <div class="field"><label for="cEmail">Email</label><input id="cEmail" type="email" placeholder="you@email.com" required /></div>
-        <div class="field"><label for="cMsg">Message</label><textarea id="cMsg" placeholder="Tell me about your idea..." required></textarea></div>
-        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Start a Conversation <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></button>
-        <p id="formNote" style="font-size:12.5px;color:var(--cyan);margin-top:14px;text-align:center;height:14px;"></p>
-      </form>
+      <form id="contactForm"
+  action="https://formsubmit.co/rjvibevaibhav@gmail.com"
+  method="POST"
+  class="contact-form glass">
+
+  <input type="hidden" name="_subject" value="New Portfolio Enquiry — RJ Vaibhav">
+  <input type="hidden" name="_template" value="table">
+  <input type="hidden" name="_captcha" value="true">
+
+  <div class="field">
+    <label for="cName">Name</label>
+    <input id="cName" type="text" name="name" placeholder="Your name"
+           autocomplete="name" required>
+  </div>
+
+  <div class="field">
+    <label for="cEmail">Email</label>
+    <input id="cEmail" type="email" name="email" placeholder="you@example.com"
+           autocomplete="email" required>
+  </div>
+
+  <div class="field">
+    <label for="cMsg">Message</label>
+    <textarea id="cMsg" name="message"
+              placeholder="Tell me about your project..." required></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary">
+    Start a Conversation
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M7 17L17 7M17 7H8M17 7V16"/>
+    </svg>
+  </button>
+
+  <p class="form-submit-note">Your message will be sent securely to my email.</p>
+</form>
       <div class="contact-side reveal reveal-delay-1">
         <div class="contact-line glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg><div><h5>Gmail</h5><p>rjvibevaibhav@gmail.com </p></div></div>
-        <div class="contact-line glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg><div><h5>Instagram</h5><p>@vibevaibhav</p></div></div>
+        <div class="contact-line glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg><div><h5>Instagram</h5><p>@rjvibevaibhav</p></div></div>
         <div class="contact-line glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg><div><h5>LinkedIn</h5><p>www.linkedin.com/in/nithishvaibhav-e</p></div></div>
         <div class="contact-line glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 00-1-2.6c3 0 6-2 6-5.5.1-1.3-.4-2.6-1.2-3.6.2-1 .2-2.1-.2-3.4 0 0-1 0-3 1.4a12.3 12.3 0 00-6.4 0C6.4 3 5.4 3 5.4 3c-.4 1.3-.4 2.4-.2 3.4A5.4 5.4 0 004 10c0 3.5 3 5.5 6 5.5-.4.4-.7.9-.9 1.4-.2.6-.2 1.2-.1 1.7v3.9"/></svg><div><h5>GitHub</h5><p>https://github.com/RJVIBEVAIBHAV</p></div></div>
         <p class="contact-note">Open to creative collaborations, video &amp; design work, media projects and software opportunities.</p>
@@ -2072,22 +3160,22 @@ p, h1, h2, h3, h4, h5, a, span{
   <div class="wrap">
     <div class="footer-top">
       <div>
-        <div class="logo">VAIBHAV<span>.</span></div>
+        <div class="logo">RJ VAIBHAV<span>.</span></div>
         <p class="footer-tag">Creative mind. Technical thinking.</p>
       </div>
       <div class="footer-links">
         <a href="#home">Home</a><a href="#about">About</a><a href="#work">Creative Work</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
       </div>
       <div class="footer-social">
-        <a href="#" aria-label="Instagram" data-social="instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
-        <a href="#" aria-label="LinkedIn" data-social="linkedin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
-        <a href="#" aria-label="GitHub" data-social="github"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 00-1-2.6c3 0 6-2 6-5.5.1-1.3-.4-2.6-1.2-3.6.2-1 .2-2.1-.2-3.4 0 0-1 0-3 1.4a12.3 12.3 0 00-6.4 0C6.4 3 5.4 3 5.4 3c-.4 1.3-.4 2.4-.2 3.4A5.4 5.4 0 004 10c0 3.5 3 5.5 6 5.5-.4.4-.7.9-.9 1.4-.2.6-.2 1.2-.1 1.7v3.9"/></svg></a>
-        <a href="#" aria-label="YouTube" data-social="youtube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.5 6.2a2.8 2.8 0 00-2-2C18.9 3.7 12 3.7 12 3.7s-6.9 0-8.5.5a2.8 2.8 0 00-2 2A29 29 0 001 12a29 29 0 00.5 5.8 2.8 2.8 0 002 2c1.6.5 8.5.5 8.5.5s6.9 0 8.5-.5a2.8 2.8 0 002-2A29 29 0 0023 12a29 29 0 00-.5-5.8z"/><polygon points="9.8,15.5 15.8,12 9.8,8.5"/></svg></a>
+        <a href="https://www.instagram.com/rjvibevaibhav/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" data-social="instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
+        <a href="https://www.linkedin.com/in/nithishvaibhav-e/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" data-social="linkedin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://github.com/RJVIBEVAIBHAV" target="_blank" rel="noopener noreferrer" aria-label="GitHub" data-social="github"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 00-1-2.6c3 0 6-2 6-5.5.1-1.3-.4-2.6-1.2-3.6.2-1 .2-2.1-.2-3.4 0 0-1 0-3 1.4a12.3 12.3 0 00-6.4 0C6.4 3 5.4 3 5.4 3c-.4 1.3-.4 2.4-.2 3.4A5.4 5.4 0 004 10c0 3.5 3 5.5 6 5.5-.4.4-.7.9-.9 1.4-.2.6-.2 1.2-.1 1.7v3.9"/></svg></a>
+        <a href="https://youtube.com/@rjvibevaibhav?si=YKOEojo05buKWqWE" aria-label="YouTube" data-social="youtube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.5 6.2a2.8 2.8 0 00-2-2C18.9 3.7 12 3.7 12 3.7s-6.9 0-8.5.5a2.8 2.8 0 00-2 2A29 29 0 001 12a29 29 0 00.5 5.8 2.8 2.8 0 002 2c1.6.5 8.5.5 8.5.5s6.9 0 8.5-.5a2.8 2.8 0 002-2A29 29 0 0023 12a29 29 0 00-.5-5.8z"/><polygon points="9.8,15.5 15.8,12 9.8,8.5"/></svg></a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Vaibhav. All rights reserved.</span>
-      <span>Designed &amp; built with curiosity.</span>
+      <span>© 2026 RJ Vaibhav. All rights reserved.</span>
+      <span>Designed &amp; built with Love and Creativity.</span>
     </div>
   </div>
 </footer>
@@ -2255,34 +3343,18 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   });
 
-  /* ---- Editable social links ----
-     Replace these four values with your real profile URLs. */
-  var socialLinks = {
-    instagram: 'https://instagram.com/yourhandle',
-    linkedin: 'https://linkedin.com/in/your-profile',
-    github: 'https://github.com/your-username',
-    youtube: 'https://youtube.com/@yourchannel'
-  };
-  document.querySelectorAll('[data-social]').forEach(function(a){
-    var key = a.dataset.social;
-    if(socialLinks[key]) a.href = socialLinks[key];
-  });
-
-  /* ---- Contact form -> email client fallback ---- */
-  /* ---- Contact form (no backend) ---- */
-  var form = document.getElementById('contactForm');
-  var note = document.getElementById('formNote');
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    var name = document.getElementById('cName').value.trim();
-    var email = document.getElementById('cEmail').value.trim();
-    var msg = document.getElementById('cMsg').value.trim();
-    var recipient = 'your.email@example.com';
-    var subject = encodeURIComponent('Portfolio enquiry from ' + name);
-    var body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + msg);
-    window.location.href = 'mailto:' + recipient + '?subject=' + subject + '&body=' + body;
-    note.textContent = "Opening your email app…";
-  });
+  /* ---- Contact form ---- */
+  var contactForm = document.getElementById('contactForm');
+  if(contactForm){
+    contactForm.addEventListener('submit', function(){
+      var submitButton = contactForm.querySelector('button[type="submit"]');
+      if(submitButton){
+        submitButton.disabled = true;
+        submitButton.style.opacity = '0.72';
+        submitButton.innerHTML = 'Sending…';
+      }
+    });
+  }
 
   /* ---- Custom cursor (desktop only) ---- */
   var cursorDot = document.getElementById('cursorDot');
@@ -2302,6 +3374,19 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 });
+</script>
+<script>
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', function () {
+    const formSubmitButton = contactForm.querySelector('button[type="submit"]');
+    if (formSubmitButton) {
+      formSubmitButton.disabled = true;
+      formSubmitButton.style.opacity = '0.72';
+      formSubmitButton.innerHTML = 'Sending…';
+    }
+  });
+}
 </script>
 </body>
 </html>
